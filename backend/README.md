@@ -49,7 +49,7 @@ print(player1.getJSON().json)
 **Responses**
 - `400`: *Malformed request* or *Invalid player name length*
 - `422`: *Username exists*
-- `201`: response.json contains output described in getJSON()
+- `201`: response.json contains output described in [getJSON()](#getjson)
 
 ### /loaduser
 `POST` method to load an extant Player. Specify Player **name**. On success, responds with the chosen Player's JSON to load into memory.
@@ -64,7 +64,7 @@ print(player1.getJSON().json)
 **Responses**
 - `400`: *Malformed request* or *Invalid player name length*
 - `404`: *Not found*
-- `200`: response.json contains output described in getJSON()
+- `200`: response.json contains output described in [getJSON()](#getjson)
 
 ### /delete
 `POST` method to delete an extant Player. Specify Player **name**. On success, responds with *Found & deleted* (OK).
@@ -95,13 +95,13 @@ print(player1.getJSON().json)
 
 **Responses**
 - `400`:
-- - *Malformed request*, or
-- - *Invalid player name length*, or
-- - *Invalid score*, or
-- - *Invalid level*
+  - *Malformed request*, or
+  - *Invalid player name length*, or
+  - *Invalid score*, or
+  - *Invalid level*
 - `404`: *Not found*
 - `422`: *Score not better*
-- `226`: response.json contains output described in getJSON()
+- `226`: response.json contains output described in [getJSON()](#getjson)
 
 ### getJSON()
 Response format for `/create`, `/loaduser`, and `/score`:
