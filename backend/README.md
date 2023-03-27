@@ -1,6 +1,10 @@
 # Back end database & API
 
-## Database
+## Database (work in progress)
+### Classes
+**Player**
+- 
+
 Playing around in python3 CLI (serious README coming soon):
 ```
 from db import *
@@ -30,8 +34,77 @@ updateScore(player2, 900, 1)
 import json
 print(player1.getJSON().json)
 ```
+
 ## API
-getJSON() output format (success response of every API except `/delete`):
+### /create
+`POST` method to create a new Player. Specify Player **name**. On success, responds with the new Player's JSON to load into memory.
+
+**Input format**
+```json
+{
+    "name": "< 20 char string"
+}
+```
+
+**Responses**
+- `400`: *Malformed request* or *Invalid player name length*
+- `422`: *Username exists*
+- `201`: response.json contains output described in getJSON()
+
+### /loaduser
+`POST` method to load an extant Player. Specify Player **name**. On success, responds with the chosen Player's JSON to load into memory.
+
+**Input format**
+```json
+{
+    "name": "< 20 char string"
+}
+```
+
+**Responses**
+- `400`: *Malformed request* or *Invalid player name length*
+- `404`: *Not found*
+- `200`: response.json contains output described in getJSON()
+
+### /delete
+`POST` method to delete an extant Player. Specify Player **name**. On success, responds with *Found & deleted* (OK).
+
+**Input format**
+```json
+{
+    "name": "< 20 char string"
+}
+```
+
+**Responses**
+- `400`: *Malformed request* or *Invalid player name length*
+- `404`: *No such player*
+- `200`: *Found & deleted*
+
+### /score
+`POST` method to update an extant Player's score. Specify Player **name**, the new **score**, & the level for **which** the new score was earned. On success, responds with the updated Player's JSON to load into memory.
+
+**Input format**
+```json
+{
+    "name":  "< 20 char string",
+    "score": "int in deciseconds",
+    "which": "int 1-3"
+}
+```
+
+**Responses**
+- `400`:
+- - *Malformed request*, or
+- - *Invalid player name length*, or
+- - *Invalid score*, or
+- - *Invalid level*
+- `404`: *Not found*
+- `422`: *Score not better*
+- `226`: response.json contains output described in getJSON()
+
+### getJSON()
+Response format for `/create`, `/loaduser`, and `/score`:
 ```json
 {
     "pk":   "int primary key",
