@@ -13,9 +13,13 @@
 from flask import jsonify, Flask
 from flask_sqlalchemy import SQLAlchemy
 
+# App
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 db = SQLAlchemy(app)
+
+# GVars
+pl = 20 # Player name length
 
 """ PLAYER """
 # int pk:           primary key     (const)
@@ -33,7 +37,7 @@ db = SQLAlchemy(app)
 # + __repr__():     Print representation
 class Player(db.Model):
     pk         = db.Column(db.Integer, primary_key=True )
-    name       = db.Column(db.String(20), nullable=False, unique=True)
+    name       = db.Column(db.String(pl), nullable=False, unique=True)
     lvl2Access = db.Column(db.Boolean,     default=False)
     lvl3Access = db.Column(db.Boolean,     default=False)
     scorable   = db.Column(db.Boolean,     default=False) # All levels complete?
@@ -47,13 +51,29 @@ class Player(db.Model):
 
     # How the object is jsonified
     def getJSON(self):
+        scr1 = None
+        scr2 = None
+        scr3 = None
+
+        if self.lvl1Score:
+            scr1 = self.lvl1Score.getDICT()
+
+        if self.lvl2Score:
+            scr2 = self.lvl2Score.getDICT()
+
+        if self.lvl3Score:
+            scr3 = self.lvl3Score.getDICT()
+
         return jsonify({
             'pk':   self.pk,
             'name': self.name,
             'Lvl1': self.lvl2Access, # Lvl1 beaten?
             'Lvl2': self.lvl3Access, # Lvl2 beaten?
             'Lvl3': self.scorable,   # Lvl3 beaten?
-            'High': self.highScore   # high score [if scorable==True, else None]
+            'High': self.highScore,  # high score [if scorable==True, else None]
+            'Scr1': scr1,
+            'Scr2': scr2,
+            'Scr3': scr3
         })
 
     # How the object is printed
@@ -72,6 +92,14 @@ class Score1(db.Model):
     # Score details (extendable)
     time = db.Column(db.Integer)
 
+    # Dictionary representation
+    def getDICT(self):
+        return {
+            'pk':   self.pk,
+            'ppk':  self.ppk,
+            'time': self.time # Completion time in deciseconds
+        }
+
     # How the object is printed
     def __repr__(self):
         return f"Score1('{self.pk}', '{self.time}', '{self.player}')"
@@ -88,6 +116,14 @@ class Score2(db.Model):
     # Score details (extendable)
     time = db.Column(db.Integer)
 
+    # Dictionary representation
+    def getDICT(self):
+        return {
+            'pk':   self.pk,
+            'ppk':  self.ppk,
+            'time': self.time # Completion time in deciseconds
+        }
+
     # How the object is printed
     def __repr__(self):
         return f"Score2('{self.pk}', '{self.time}', '{self.player}')"
@@ -103,6 +139,14 @@ class Score3(db.Model):
 
     # Score details (extendable)
     time = db.Column(db.Integer)
+
+    # Dictionary representation
+    def getDICT(self):
+        return {
+            'pk':   self.pk,
+            'ppk':  self.ppk,
+            'time': self.time # Completion time in deciseconds
+        }
 
     # How the object is printed
     def __repr__(self):
@@ -207,3 +251,43 @@ def updateScore(player, newScore, which):
         # Log & updatePlayer()
         print(f"updateScore({player.name}): Score {which} updated!")
         updatePlayer(player)
+    
+    return performUpdate
+
+def newPlayer(playerName):
+    # Add player
+    player = Player(name=playerName)
+    db.session.add(player)
+    db.session.commit()
+
+    return player
+
+def searchPlayer(playerName):
+    return Player.query.filter_by(name=playerName).first()
+
+def delPlayer(playerName):
+    player = Player.query.filter_by(name=playerName).first()
+    score1 = None
+    score2 = None
+    score3 = None
+
+    if player:
+        score1 = player.lvl1Score
+        score2 = player.lvl2Score
+        score3 = player.lvl3Score
+
+        if score1:
+            db.session.delete(score1)
+
+        if score2:
+            db.session.delete(score2)
+        
+        if score3:
+            db.session.delete(score3)
+        
+        db.session.delete(player)
+        db.session.commit()
+        
+        return True
+    
+    return False
