@@ -10,8 +10,10 @@
         Amar McLean <amarm1@umbc.edu>
 """
 
-from flask import jsonify, Flask
+from flask            import jsonify, Flask
 from flask_sqlalchemy import SQLAlchemy
+from datetime         import datetime, timezone
+from pytz             import timezone
 
 # App
 app = Flask(__name__)
@@ -20,6 +22,8 @@ db = SQLAlchemy(app)
 
 # GVars
 pl = 20 # Player name length
+tz = timezone('US/Eastern')
+df = '%m/%d/%Y %I:%M:%S %p (ET)'
 
 """ PLAYER """
 # int pk:           primary key     (const)
@@ -81,23 +85,24 @@ class Player(db.Model):
         return f"Player('{self.pk}', '{self.name}', '{self.lvl2Access}', '{self.lvl3Access}', '{self.scorable}', '{self.highScore}')"
 
 """ LEVEL 1 SCORE """
-# int pk:   primary key
-# int ppk:  player primary key (who owns the score)
-# int time: Time in deciseconds (extendable)
+# int pk:        primary key
+# int ppk:       player primary key (who owns the score)
+# int time:      Time in deciseconds (extendable)
+# DateTime when: Timestamp of score entry
 class Score1(db.Model):
     # object members
-    pk   = db.Column(db.Integer, primary_key=True )
-    ppk  = db.Column(db.Integer, db.ForeignKey('player.pk'), nullable=False)
-
-    # Score details (extendable)
+    pk   = db.Column(db.Integer,  primary_key=True)
+    ppk  = db.Column(db.Integer,  db.ForeignKey('player.pk'), nullable=False)
     time = db.Column(db.Integer)
+    when = db.Column(db.DateTime, nullable=False)
 
     # Dictionary representation
     def getDICT(self):
         return {
             'pk':   self.pk,
             'ppk':  self.ppk,
-            'time': self.time # Completion time in deciseconds
+            'time': self.time, # Completion time in deciseconds
+            'when': self.when.strftime(df)
         }
 
     # How the object is printed
@@ -105,23 +110,24 @@ class Score1(db.Model):
         return f"Score1('{self.pk}', '{self.time}', '{self.player}')"
 
 """ LEVEL 2 SCORE """
-# int pk:   primary key
-# int ppk:  player primary key (who owns the score)
-# int time: Time in deciseconds (extendable)
+# int pk:        primary key
+# int ppk:       player primary key (who owns the score)
+# int time:      Time in deciseconds (extendable)
+# DateTime when: Timestamp of score entry
 class Score2(db.Model):
     # object members
-    pk   = db.Column(db.Integer, primary_key=True )
-    ppk  = db.Column(db.Integer, db.ForeignKey('player.pk'), nullable=False)
-
-    # Score details (extendable)
+    pk   = db.Column(db.Integer,  primary_key=True)
+    ppk  = db.Column(db.Integer,  db.ForeignKey('player.pk'), nullable=False)
     time = db.Column(db.Integer)
+    when = db.Column(db.DateTime, nullable=False)
 
     # Dictionary representation
     def getDICT(self):
         return {
             'pk':   self.pk,
             'ppk':  self.ppk,
-            'time': self.time # Completion time in deciseconds
+            'time': self.time, # Completion time in deciseconds
+            'when': self.when.strftime(df)
         }
 
     # How the object is printed
@@ -129,23 +135,24 @@ class Score2(db.Model):
         return f"Score2('{self.pk}', '{self.time}', '{self.player}')"
 
 """ LEVEL 3 SCORE """
-# int pk:   primary key
-# int ppk:  player primary key (who owns the score)
-# int time: Time in deciseconds (extendable)
+# int pk:        primary key
+# int ppk:       player primary key (who owns the score)
+# int time:      Time in deciseconds (extendable)
+# DateTime when: Timestamp of score entry
 class Score3(db.Model):
     # object members
-    pk   = db.Column(db.Integer, primary_key=True )
-    ppk  = db.Column(db.Integer, db.ForeignKey('player.pk'), nullable=False)
-
-    # Score details (extendable)
+    pk   = db.Column(db.Integer,  primary_key=True)
+    ppk  = db.Column(db.Integer,  db.ForeignKey('player.pk'), nullable=False)
     time = db.Column(db.Integer)
+    when = db.Column(db.DateTime, nullable=False)
 
     # Dictionary representation
     def getDICT(self):
         return {
             'pk':   self.pk,
             'ppk':  self.ppk,
-            'time': self.time # Completion time in deciseconds
+            'time': self.time, # Completion time in deciseconds
+            'when': self.when.strftime(df)
         }
 
     # How the object is printed
@@ -202,10 +209,8 @@ def updatePlayer(player):
         print(f"updatePlayer({player.name}): Nothing changed!")
 
 # New received from API
-# TODO: validate (on API-side) which & score-order
 def updateScore(player, newScore, which):
     performUpdate = True
-    which         = ((abs(which) - 1) % 3) + 1 # always 1, 2, or 3
     boolCheck     = None
     oldScore      = None
 
@@ -234,16 +239,15 @@ def updateScore(player, newScore, which):
         if oldScore:
             # newScore is better
             oldScore.time = newScore
-            # TODO: DateTime value insert
+            oldScore.when = datetime.now(tz)
         else:
             # first score
-            # TODO: DateTime value insert
             if which == 1:
-                db.session.add(Score1(ppk=player.pk, time=newScore))
+                db.session.add(Score1(ppk=player.pk, time=newScore, when=datetime.now(tz)))
             elif which == 2:
-                db.session.add(Score2(ppk=player.pk, time=newScore))
+                db.session.add(Score2(ppk=player.pk, time=newScore, when=datetime.now(tz)))
             else:
-                db.session.add(Score3(ppk=player.pk, time=newScore))
+                db.session.add(Score3(ppk=player.pk, time=newScore, when=datetime.now(tz)))
             
             # Save first score
             db.session.commit()

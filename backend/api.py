@@ -11,7 +11,7 @@
 """
 
 from flask import request
-from db import *
+from db    import *
 
 # API for creating new users
 """
@@ -163,6 +163,10 @@ def score():
 
     if not player:
         return 'Player not found', 404
+    
+    # Validate order (level 1 can always be updated)
+    if (playerWhich == 2 and not player.lvl2Access) or (playerWhich == 3 and not player.lvl3Access):
+        return 'Level is not accessible', 422
     
     # All checks passed, update score
     scoreUpdated = updateScore(player, playerScore, playerWhich)

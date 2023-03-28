@@ -1,39 +1,32 @@
 # Back end database & API
 
-## Database (work in progress)
+## Database
 ### Classes
 **Player**
-- 
+- int pk:         primary key (const)
+- str name:       username (const)
+- boo lvl2Access: Level 1 beaten? (one-time switch)
+- boo lvl3Access: Level 2 beaten? (one-time switch)
+- boo scorable:   Level 3 beaten? (one-time switch)
+- int highScore:  Cumulative time in deciseconds [lower is better]
+- Score1 lvl1Score: 1:1 lvl1Score object
+- Score2 lvl2Score: 1:1 lvl2Score object
+- Score3 lvl3Score: 1:1 lvl3Score object
+- + getJSON():  JSON output
+- + __repr__(): Print representation
 
-Playing around in python3 CLI (serious README coming soon):
-```
-from db import *
-app.app_context().push()
-db.create_all()
-player1 = Player(name='Ursuul')
-player2 = Player(name='Billy')
-db.session.add(player1)
+**Score1, Score2, Score3**
+- int pk:   primary key (child)
+- int ppk:  player primary key (parent)
+- int time: Time in deciseconds(extendable)
+- DateTime when: Timestamp of score entry
 
-player1score1 = Score1(ppk=player1.pk, time=1200)
-db.session.add(player1score1)
-
-player1score2 = Score2(ppk=player1.pk, time=1800)
-db.session.add(player1score2)
-
-player1score3 = Score3(ppk=player1.pk, time=2100)
-db.session.add(player1score3)
-
-db.session.commit()
-
-player1 = Player.query.first()
-player2 = Player.query.all()[1]
-score1  = Score1.query.first()
-updatePlayer(player1)
-updateScore(player2, 900, 1)
-
-import json
-print(player1.getJSON().json)
-```
+### Utility Functions
+- **updatePlayer(player)**: Internal function to update a Player entry anytime a Score is updated via updateScore().
+- **updateScore(player, newScore, which)**: Update a **player**'s **new score** on the level for **which** the score was earned. Return `True` on success. Used in [`/score`](#score) API.
+- **newPlayer(playerName)**: Create a new Player row from a given name. Return the created player on success. Used in [`/create`](#create) API.
+- **searchPlayer(playerName)**: Find and return a Player row with the given name. Return None on not found. Used in [`/loaduser`](#loaduser) API.
+- **delPlayer(playerName)**: Find and delete a Player row with the given name. Return `True` on success. Used in [`/delete`](#delete) API.
 
 ## API
 ### /create
@@ -104,7 +97,7 @@ print(player1.getJSON().json)
 - `226`: response.json contains output described in getJSON()
 
 ### getJSON()
-Response format for `/create`, `/loaduser`, and `/score`:
+Response format for [`/create`](#create), [`/loaduser`](#loaduser), and [`/score`](#score):
 ```json
 {
     "pk":   "int primary key",
@@ -116,17 +109,20 @@ Response format for `/create`, `/loaduser`, and `/score`:
     "Scr1": {
         "pk":   "int primary key (child)",
         "ppk":  "int primary key (parent)",
-        "time": "int level 1 completion time in deciseconds"
+        "time": "int level 1 completion time in deciseconds",
+        "when": "str mm/dd/yyyy hh:mm:ss AM/PM (ET)"
     },
     "Scr2": {
         "pk":   "int primary key (child)",
         "ppk":  "int primary key (parent)",
-        "time": "int level 2 completion time in deciseconds"
+        "time": "int level 2 completion time in deciseconds",
+        "when": "str mm/dd/yyyy hh:mm:ss AM/PM (ET)"
     },
     "Scr3": {
         "pk":   "int primary key (child)",
         "ppk":  "int primary key (parent)",
-        "time": "int level 3 completion time in deciseconds"
+        "time": "int level 3 completion time in deciseconds",
+        "when": "str mm/dd/yyyy hh:mm:ss AM/PM (ET)"
     }
 }
 ```
