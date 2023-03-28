@@ -3,17 +3,17 @@
 ## Database
 ### Classes
 **Player**
-- int pk:         primary key (const)
-- str name:       username (const)
-- boo lvl2Access: Level 1 beaten? (one-time switch)
-- boo lvl3Access: Level 2 beaten? (one-time switch)
-- boo scorable:   Level 3 beaten? (one-time switch)
-- int highScore:  Cumulative time in deciseconds [lower is better]
-- Score1 lvl1Score: 1:1 lvl1Score object
-- Score2 lvl2Score: 1:1 lvl2Score object
-- Score3 lvl3Score: 1:1 lvl3Score object
-- + getJSON():  JSON output
-- + __repr__(): Print representation
+- `int pk`:          primary key (const)
+- `str name`:        username (const)
+- `bool lvl2Access`: Level 1 beaten? (one-time switch)
+- `bool lvl3Access`: Level 2 beaten? (one-time switch)
+- `bool scorable`:   Level 3 beaten? (one-time switch)
+- `int highScore`:   Cumulative time in deciseconds [lower is better]
+- `Score1 lvl1Score`:  1:1 lvl1Score object
+- `Score2 lvl2Score`:  1:1 lvl2Score object
+- `Score3 lvl3Score`:  1:1 lvl3Score object
+- \+ getJSON():      JSON output
+- \+ __repr__():     Print representation
 
 **Score1, Score2, Score3**
 - int pk:   primary key (child)
