@@ -16,9 +16,9 @@ import { newUser, getUser, delUser, scrUser } from './api.js';
 //     console.log(result);
 // })
 
-getUser('BillyBobJoel').then(result => {
-    console.log(result);
-})
+// getUser('BillyBobJoel').then(result => {
+//     console.log(result);
+// })
 
 // scrUser('BillyBobJoel', 1800, 1).then(result => {
 //     console.log(result);
