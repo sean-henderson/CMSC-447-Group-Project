@@ -1,6 +1,6 @@
 """
     @file:    api.py
-    @desc:    Routing for CMSC 447 web game database
+    @brief:   Routing for CMSC 447 web game database
     @date:    March 22nd, 2023
     @authors:
         Gabe Aquino <lq90575@umbc.edu>
@@ -36,7 +36,7 @@ def create():
         return 'Malformed request', 400
 
     # Validate username
-    if playerName.len() > pl:
+    if len(playerName) > pl:
         return 'Invalid player name length', 400
 
     # Attempt to add to database
@@ -74,11 +74,11 @@ def loaduser():
         return 'Malformed request', 400
 
     # Validate username
-    if playerName.len() > pl:
+    if len(playerName) > pl:
         return 'Invalid player name length', 400
 
     # Search database
-    player = newPlayer(playerName)
+    player = searchPlayer(playerName)
 
     if not player:
         return 'Not found', 404
@@ -108,7 +108,7 @@ def delete():
         return 'Malformed request', 400
 
     # Validate username
-    if playerName.len() > pl:
+    if len(playerName) > pl:
         return 'Invalid player name length', 400
 
     # Attempt to delete
@@ -151,7 +151,7 @@ def score():
         return 'Malformed request', 400
     
     # Validate everything
-    if playerName.len() > pl:
+    if len(playerName) > pl:
         return 'Invalid player name length', 400
     elif playerScore < 0:
         return 'Invalid score', 400
@@ -159,7 +159,7 @@ def score():
         return 'Invalid level', 400
     
     # Search database
-    player = newPlayer(playerName)
+    player = searchPlayer(playerName)
 
     if not player:
         return 'Player not found', 404

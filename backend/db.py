@@ -1,6 +1,6 @@
 """
     @file:    db.py
-    @desc:    Database for CMSC 447 web game
+    @brief:   Database for CMSC 447 web game
     @date:    March 22nd, 2023
     @authors:
         Gabe Aquino <lq90575@umbc.edu>
@@ -11,12 +11,14 @@
 """
 
 from flask            import jsonify, Flask
+from flask_cors       import CORS
 from flask_sqlalchemy import SQLAlchemy
 from datetime         import datetime, timezone
 from pytz             import timezone
 
 # App
 app = Flask(__name__)
+CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 db = SQLAlchemy(app)
 
