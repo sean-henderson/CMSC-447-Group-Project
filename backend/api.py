@@ -178,6 +178,15 @@ def score():
     # Score updated, send back updated Player
     return player.getJSON(), 226
 
+# API for getting the leaderboard
+"""
+input format: {}
+"""
+@app.route("/leaderboard", methods=["POST"], strict_slashes=False)
+def leaderboard():
+    # Send leaderboard
+    return getLeaderboard(), 200
+
 # Running app
 if __name__ == '__main__':
     app.app_context().push()

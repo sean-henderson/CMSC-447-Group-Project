@@ -20,7 +20,7 @@ const headers = {
 };
 
 // Functions
-const apiPost = async (route, fnc, name, score = 0, which = -1) => {
+const apiPost = async (route, fnc, name = '', score = 0, which = -1) => {
     let success = false;
     let iDelete = false;
     let payload = {
@@ -78,6 +78,12 @@ const apiPost = async (route, fnc, name, score = 0, which = -1) => {
 }
 
 // Exports
+export const leaderB = async () => {
+    let route = 'leaderboard';
+    let fnc   = 'leaderB';
+    return apiPost(route, fnc);
+}
+
 export const newUser = async (name) => {
     let route = 'create';
     let fnc   = 'newUser';

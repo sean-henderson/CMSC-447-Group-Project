@@ -13,6 +13,7 @@
 from flask            import jsonify, Flask
 from flask_cors       import CORS
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy       import asc
 from datetime         import datetime, timezone
 from pytz             import timezone
 
@@ -26,6 +27,7 @@ db = SQLAlchemy(app)
 pl = 20 # Player name length
 tz = timezone('US/Eastern')
 df = '%m/%d/%Y %I:%M:%S %p (ET)'
+lm = 5 # max number of leaderboard players to send
 
 """ PLAYER """
 # int pk:           primary key     (const)
@@ -297,3 +299,26 @@ def delPlayer(playerName):
         return True
     
     return False
+
+def getLeaderboard():
+    leaders = Player.query.filter_by(scorable=True).order_by(asc(Player.highScore)).limit(lm).all()
+    payload = {
+        "data": [{
+            "Group": "J",
+            "Title": "Top 5 Scores"
+        }]
+    }
+
+    for leader in leaders:
+        payload["data"][0][leader.name] = leader.highScore
+    
+    return jsonify(payload)
+
+# # Running app
+# if __name__ == '__main__':
+#     app.app_context().push()
+
+#     Ursuul6 = Player.query.filter_by(name="Ursuul6").first()
+#     updateScore(Ursuul6, 2101, 1)
+#     updateScore(Ursuul6, 1501, 2)
+#     updateScore(Ursuul6, 901, 3)
