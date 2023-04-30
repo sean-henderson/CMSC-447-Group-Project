@@ -27,6 +27,7 @@
 - **newPlayer(playerName)**: Create a new Player row from a given name. Return the created player on success. Used in [`/create`](#create) API.
 - **searchPlayer(playerName)**: Find and return a Player row with the given name. Return None on not found. Used in [`/loaduser`](#loaduser) API.
 - **delPlayer(playerName)**: Find and delete a Player row with the given name. Return `True` on success. Used in [`/delete`](#delete) API.
+- **getLeaderboard()**: Generate a list of up-to 5 players in ascending order who have the best completion times. Send formatted per [spec](https://docs.google.com/document/d/1Gpnkp3MwqZgTIk5YkbYMRW6-g69R0THyHQW5jGE_9s8/edit).
 
 ## API
 ### /create
@@ -124,5 +125,32 @@ Response format for [`/create`](#create), [`/loaduser`](#loaduser), and [`/score
         "time": "int level 3 completion time in deciseconds",
         "when": "str mm/dd/yyyy hh:mm:ss AM/PM (ET)"
     }
+}
+```
+
+### /leaderboard
+`POST` method to receive leaderboard data.
+
+**Input format**
+```json
+{}
+```
+
+**Responses**
+- `200`: response.json contains output:
+
+```json
+{
+    "data" : [ 
+        {
+            "Group": "<group letter>",
+            "Title": "Top 5 Scores",
+            "<1st Name>": "<1st score>",
+            "<2nd Name>": "<2nd score>",
+            "<3rd Name>": "<3rd score>",
+            "<4th Name>": "<4th score>",
+            "<5th Name>": "<5th score>"
+        }
+    ]
 }
 ```
