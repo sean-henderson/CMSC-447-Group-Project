@@ -20,7 +20,7 @@ const headers = {
 };
 
 // Functions
-const apiPost = async (route, fnc, name = '', score = 0, which = -1) => {
+const apiPost = async (route, fnc, name = '', score = 0, which = -1, debug = false) => {
     let success = false;
     let iDelete = false;
     let payload = {
@@ -43,7 +43,7 @@ const apiPost = async (route, fnc, name = '', score = 0, which = -1) => {
     })
     .then(response => {
         if (response.ok) {
-            console.log(fnc + '(): Success');
+            if (debug) {console.log(fnc + '(): Success')};
             success = true;
 
             if (iDelete) {
@@ -52,7 +52,7 @@ const apiPost = async (route, fnc, name = '', score = 0, which = -1) => {
                 return response.json();
             }
         } else {
-            console.log(fnc + '(): Failure');
+            if (debug) {console.log(fnc + '(): Failure')};
             return response.text();
         }
     })
