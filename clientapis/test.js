@@ -10,69 +10,175 @@
  * @author Amar McLean    <amarm1@umbc.edu>
  * 
  */
+
+// Imports
 import { newUser, getUser, delUser, scrUser, leaderB } from './api.js';
 
-// newUser('BillyBobJoel').then(result => {
-//     console.log(result);
-// })
+// Consts
+const arg = process.argv.slice(2);
 
-// getUser('BillyBobJoel').then(result => {
-//     console.log(result);
-// })
+// Functions
+const dummyData = async () => {
+    return newUser('Dummy1').then(result => {
+        return newUser('Dummy2').then(result => {
+            return newUser('Dummy3').then(result => {
+                return result;
+            });
+        });
+    }).then(result => {
+        return scrUser('Dummy1', 1800, 1).then(result => {
+            return scrUser('Dummy2', 1850, 1).then(result => {
+                return scrUser('Dummy3', 1900, 1).then(result => {
+                    return result;
+                })
+            })
+        });
+    }).then(result => {
+        return scrUser('Dummy1', 1200, 2).then(result => {
+            return scrUser('Dummy2', 1250, 2).then(result => {
+                return scrUser('Dummy3', 1300, 2).then(result => {
+                    return result;
+                })
+            })
+        });
+    }).then(result => {
+        return scrUser('Dummy1', 600, 3).then(result => {
+            return scrUser('Dummy2', 650, 3).then(result => {
+                return scrUser('Dummy3', 700, 3).then(result => {
+                    return result;
+                })
+            })
+        });
+    });
+}
 
-// scrUser('BillyBobJoel', 570, 2).then(result => {
-//     console.log(result);
-// })
+function cleanup() {
+    delUser('Dummy1');
+    delUser('Dummy2');
+    delUser('Dummy3');
+}
 
-// delUser('BillyBobJoel').then(result => {
-//     console.log(result);
-// })
-
-// leaderB().then(result => {
-//     let list = [];
-//     console.log(result);
-    
-//     if (!result['err']) {
-//         Object.entries(result['data'][0]).forEach(([key, value]) => {
-//             // console.log(key + ' : ' + value);
-//             if (key !== 'Group' && key !== 'Title') {
-//                 list.push([value, key]); // swap in order to sort by completion-time
-//             }
-//         });
-
-//         // Sort
-//         list.sort();
-
-//         // Update 1st place
-//         if (list.length > 0) {
-//             document.getElementById("first-name").innerHTML=list[0][1];
-//             document.getElementById("first-total-time").innerHTML=list[0][0];
-//         }
-
-//         // Update 2nd place
-//         if (list.length > 1) {
-//             document.getElementById("second-name").innerHTML=list[1][1];
-//             document.getElementById("second-total-time").innerHTML=list[1][0];
-//         }
-
-//         // Update 3rd place
-//         if (list.length > 2) {
-//             document.getElementById("third-name").innerHTML=list[2][1];
-//             document.getElementById("third-total-time").innerHTML=list[2][0];
-//         }
-
-//         // Update 4th place
-//         if (list.length > 3) {
-//             document.getElementById("fourth-name").innerHTML=list[3][1];
-//             document.getElementById("fourth-total-time").innerHTML=list[3][0];
-//         }
-
-//         // Update 5th place
-//         if (list.length > 4) {
-//             document.getElementById("fifth-name").innerHTML=list[4][1];
-//             document.getElementById("fifth-total-time").innerHTML=list[4][0];
-//         }
-//     } else {
-//         console.log("API error, table not loaded.");
-//     }
-// });
+// Test cases
+switch (arg[0]) {
+    case '1': // create, normal
+        newUser('Test1').then(result => {
+            console.log(result);
+        }).then(cleanup => {
+            delUser('Test1').then(result => {
+                console.log('End case 1');
+            });
+        });
+        break;
+    case '2': // create, err (name > 20 chars)
+        newUser('12345 1234 1234 12345').then(result => {
+            console.log(result);
+            console.log('End case 2');
+        });
+        break;
+    case '3': // create, err (already exists)
+        let input = 'Test3';
+        newUser(input).then(result => {
+            newUser(input).then(result => {
+                console.log(result);
+                delUser(input);
+                console.log('End case 3');
+            });
+        });
+        break;
+    case '4': // loaduser, normal
+        dummyData().then(result => {
+            getUser('Dummy2').then(result => {
+                console.log(result);
+                console.log('End case 4');
+                cleanup();
+            });
+        });
+        break;
+    case '5': // loaduser, err (name > 20 chars)
+        getUser('12345 1234 1234 12345').then(result => {
+            console.log(result);
+            console.log('End case 5');
+        });
+        break;
+    case '6': // loaduser, err (doesn't exist)
+        getUser('NoExist').then(result => {
+            console.log(result);
+            console.log('End case 6');
+        });
+        break;
+    case '7': // delete, normal
+        newUser('Test7').then(result => {
+            delUser('Test7').then(result => {
+                console.log(result);
+                console.log('End case 7');
+            });
+        });
+        break;
+    case '8': // delete, err (name > 20 chars)
+        delUser('12345 1234 1234 12345').then(result => {
+            console.log(result);
+            console.log('End case 8');
+        });
+        break;
+    case '9': // delete, err (doesn't exist)
+        delUser('NoExist').then(result => {
+            console.log(result);
+            console.log('End case 9');
+        });
+        break;
+    case '10': // score, normal
+        dummyData().then(result => {
+            scrUser('Dummy3', 900, 1).then(result => {
+                console.log(result);
+                console.log('End case 10');
+                cleanup();
+            });
+        });
+        break;
+    case '11': // score, err (name > 20 chars)
+        scrUser('12345 1234 1234 12345', 900, 1).then(result => {
+            console.log(result);
+            console.log('End case 11');
+        });
+        break;
+    case '12': // score, err (negative score)
+        scrUser('Dummy3', -900, 1).then(result => {
+            console.log(result);
+            console.log('End case 12');
+        });
+        break;
+    case '13': // score, err (level out of range)
+        scrUser('Dummy3', 900, 11).then(result => {
+            console.log(result);
+            console.log('End case 13');
+        });
+        break;
+    case '14': // score, err (level out of range)
+        scrUser('NoExist', 900, 1).then(result => {
+            console.log(result);
+            console.log('End case 14');
+        });
+        break;
+    case '15': // score, err (no access to level)
+        newUser('Test15').then(result => {
+            scrUser('Test15', 600, 3).then(result => {
+                console.log(result);
+            });
+        }).then(cleanup => {
+            delUser('Test15').then(result => {
+                console.log('End case 15');
+            });
+        });
+        break;
+    case '16': // score, normal
+        dummyData().then(result => {
+            scrUser('Dummy3', 2000, 1).then(result => {
+                console.log(result);
+                console.log('End case 16');
+                cleanup();
+            });
+        });
+        break;
+    default:
+        console.log('No test suite selected!');
+}
