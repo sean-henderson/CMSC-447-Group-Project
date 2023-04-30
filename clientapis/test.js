@@ -179,6 +179,17 @@ switch (arg[0]) {
             });
         });
         break;
+    case '17': // leaderboard, normal
+        dummyData().then(result => {
+            scrUser('Dummy3', 900, 1).then(result => {
+                leaderB().then(result => {
+                    console.log(result);
+                    console.log('End case 17');
+                    cleanup();
+                });
+            });
+        });
+        break;
     default:
         console.log('No test suite selected!');
 }
