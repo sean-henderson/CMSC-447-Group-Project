@@ -16,10 +16,10 @@
 - \+ __repr__():     Print representation
 
 **Score1, Score2, Score3**
-- int pk:   primary key (child)
-- int ppk:  player primary key (parent)
-- int time: Time in deciseconds(extendable)
-- DateTime when: Timestamp of score entry
+- `int pk`:   primary key (child)
+- `int ppk`:  player primary key (parent)
+- `int time`: Time in deciseconds (extendable)
+- `DateTime when`: Timestamp of score entry
 
 ### Utility Functions
 - **updatePlayer(player)**: Internal function to update a Player entry anytime a Score is updated via updateScore().
