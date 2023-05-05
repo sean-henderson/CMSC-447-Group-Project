@@ -12,7 +12,7 @@
  */
 
 // Imports
-import { newUser, getUser, delUser, scrUser, leaderB } from './api.js';
+import { newUser, getUser, delUser, scrUser, leaderB, turnIn } from './api.js';
 
 // Consts
 const arg = process.argv.slice(2);
@@ -170,7 +170,7 @@ switch (arg[0]) {
             });
         });
         break;
-    case '16': // score, normal
+    case '16': // score, err (didn't beat prior score)
         dummyData().then(result => {
             scrUser('Dummy3', 2000, 1).then(result => {
                 console.log(result);
@@ -190,6 +190,26 @@ switch (arg[0]) {
             });
         });
         break;
+    case 'turnin':
+        let mSuccess = false;
+        turnIn().then(response => {
+            if (response.ok) {
+                console.log("Turned in successfully!");
+                mSuccess = true;
+                return response.text();
+            } else {
+                return response;
+            }
+        }).then(response => {
+            if (mSuccess) {
+                console.log(response);
+            } else {
+                console.log("RESPONSE NOT OK.\n\n\n");
+                console.log(response);
+            }
+        });
+        break;
     default:
         console.log('No test suite selected!');
+        dummyData();
 }

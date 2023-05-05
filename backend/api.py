@@ -187,6 +187,26 @@ def leaderboard():
     # Send leaderboard
     return getLeaderboard(), 200
 
+# Test API for testing the post method for turn-in data
+"""
+input format: {"data" :
+	[ 
+		{	"Group": "<group letter>"
+			"Title": "Top 5 Scores"
+			"<1st Name>": "<1st score>"
+			"<2nd Name>": "<2nd score>"
+			"<3rd Name>": "<3rd score>"
+			"<4th Name>": "<4th score>"
+			"<5th Name>": "<5th score>"
+		}
+	]
+}
+"""
+@app.route("/test", methods=["POST"], strict_slashes=False)
+def test():
+    print(request.get_json())
+    return "All good", 200
+
 # Running app
 if __name__ == '__main__':
     app.app_context().push()

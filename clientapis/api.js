@@ -107,3 +107,56 @@ export const scrUser = async (name, score, which) => {
     let fnc   = 'scrUser';
     return apiPost(route, fnc, name, score, which);
 }
+
+/**
+ * Ad-hoc function for one-time turn-in of leaderboard
+ * URI: https://eope3o6d7z7e2cc.m.pipedream.net/
+ * @returns Promise of response
+ */
+export const turnIn = async (URI = '') => {
+    let route = 'test';
+
+    if (!URI) {
+        URI = URL + route;
+    }
+
+    return leaderB().then(result => {
+        let list = [];
+        let data = {};
+        
+        // Check that result was received without errors
+        if (result['err']) {
+            console.log("API error, table not loaded.");
+            return 0;
+        } else {
+            // Extract leaderboard entries
+            Object.entries(result['data'][0]).forEach(([key, value]) => {
+                // Ignore Group & Title fields
+                if (key !== 'Group' && key !== 'Title') {
+                    // swap in order to sort by completion-time
+                    list.push([value, key]);
+                }
+            });
+
+            // Sort
+            list.sort();
+
+            // Construct payload
+            data['Group'] = result['data'][0]['Group'];
+            data['Title'] = result['data'][0]['Title'];
+            list.forEach((score) => {
+                data[score[1]] = score[0];
+            });
+
+            // Send on
+            console.log(data);
+            return data;
+        }
+    }).then(payload => {
+        return fetch(URI, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(payload)
+        });
+    });
+}
