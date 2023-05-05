@@ -14,8 +14,12 @@ There are a couple of things you have to do first before playing the game (which
 6. sqlalchemy
 
 Then, you have to run the following commands into the terminal
-7. pip3 install flask flask_cors flask-sqlalchemy sqlalchemy
-8. cd backend/ && python3 api.py
+
+7. ```pip3 install flask flask_cors flask-sqlalchemy sqlalchemy```
+
+8. ```cd backend/```
+
+9. ```python3 api.py```
 
 Once you've done all of this, you should have everything needed in order to play the game (so long as you have all the files).
 
