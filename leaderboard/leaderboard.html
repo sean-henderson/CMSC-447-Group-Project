@@ -34,19 +34,19 @@
         </thead>
         <tbody style="font-size: 30px;">
             <tr id="first">
-                <td style="color:#B59410;font-weight: bold;">1st</td>
+                <td>1st</td>
                 <td id="first-name">Name 1</td>
                 <td id="first-total-time">Time 1</td>
             </tr>
 
             <tr id="second">
-                <td style="color:#71706E;font-weight: bold;">2nd</td>
+                <td>2nd</td>
                 <td id="second-name">Name 2</td>
                 <td id="second-total-time">Time 2</td>
             </tr>
 
             <tr id="third">
-                <td style="color:#804A00;font-weight: bold;">3rd</td>
+                <td>3rd</td>
                 <td id="third-name">Name 3</td>
                 <td id="third-total-time">Time 3</td>
             </tr>
@@ -75,6 +75,22 @@
             font-style: italic;
             color: red;
             text-align: center;
+        }
+
+        .table #first  td:first-child,
+        .table #second td:first-child,
+        .table #third  td:first-child {
+            color:#B59410;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px #000000;
+        }
+
+        .table #second td:first-child {
+            color:#71706E;
+        }
+
+        .table #third td:first-child {
+            color:#804A00;
         }
     </style>
     <script>
