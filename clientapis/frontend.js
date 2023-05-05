@@ -1,4 +1,5 @@
 // Import Front end APIs
+//import { Stage, game, ColorLayer, BitmapText, level  } from 'melonjs';
 
 // Function for creating new game, takes user's name
 function newGame(name) {
@@ -12,6 +13,7 @@ function newGame(name) {
         // Load into level?
         else{
             newPlayer(name)
+            //level.load("area01");
         }
     });
 };
@@ -25,12 +27,15 @@ function loadGame(name) {
         else{
             if(!(name)."Lvl1"){
                 //Load Level 1
+                //level.load("area01");
             }
             else if(!(name)."Lvl2"){
                 //Load Level 2
+                //level.load("area02");
             }
             else if(!(name)."Lvl3"){
                 //Load Level 3
+                //level.load("area03");
             }
         }
     }
