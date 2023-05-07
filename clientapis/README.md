@@ -134,7 +134,7 @@ Returns the highest scoring players with their scores, up to five entries total.
       "playerName2nd": int score,
       "playerName3rd": int score,
       "playerName4th": int score,
-      "playerName5th": 3750
+      "playerName5th": int score
     }
   ],
   "err":  false,
