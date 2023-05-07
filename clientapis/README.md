@@ -122,8 +122,25 @@ If successful, the player will be deleted & the Promise will resolve to:
 }
 ```
 
-## To-Do
-Leaderboard GET function.
+### leaderB()
+Returns the highest scoring players with their scores, up to five entries total. Takes the form:
+```
+{
+  "data": [
+    {
+      "Group":         "J",
+      "Title":         "Top 5 Scores",
+      "playerName1st": int score,
+      "playerName2nd": int score,
+      "playerName3rd": int score,
+      "playerName4th": int score,
+      "playerName5th": 3750
+    }
+  ],
+  "err":  false,
+  "errm": ""
+}
+```
 
 ## See also
-`test.js` lists example import & usages of the export functions
+`test.js` lists test cases of the export functions.
