@@ -1,48 +1,47 @@
 // Import Front end APIs
-//import { Stage, game, ColorLayer, BitmapText, level  } from 'melonjs';
-import { newUser, getUser, delUser, scrUser } from './api.js'
+import { state } from 'melonjs';
+import { newUser, getUser, delUser, scrUser } from './api';
+import data from './../Demo_Latest/src/data/data.js';
 
-function newGame() {
+export const newGame = () => {
     let name = prompt("What is your name?");
     let success = false;
     
     newUser(name).then(result => {
         if (!result['err']) {
             success = true;
-            return result;
-        } else { return 0; }
+        }
+        return result;
     }).then(result => {
         if (success) {
-            startGame(result['name']);
+            data.player_name = name;
+            state.change(state.PLAY);
         } else {
-            alert("Name is taken");
+            alert(result['errm']);
         }
-
-        //functionToReloadMainMenu();
     });
 }
 
-function loadGame() {
+export const loadGame = () => {
     let name = prompt("What is your name?");
     let success = false;
     
     getUser(name).then(result => {
         if (!result['err']) {
             success = true;
-            return result;
-        } else { return 0; }
+        }
+        return result;
     }).then(result => {
         if (success) {
-            startGame(result['name']);
+            data.player_name = name;
+            state.change(state.PLAY);
         } else {
-            alert("Name is taken");
+            alert(result['errm']);
         }
-
-        //functionToReloadMainMenu();
     });
 }
 
-function getLeaderboard(){
+export const getLeaderboard = () => {
     window.open('http://127.0.0.1:5000/', '_blank');
     return 0;
 }
