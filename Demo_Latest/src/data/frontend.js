@@ -1,6 +1,7 @@
 // Import Front end APIs
 import { state } from 'melonjs';
-import { newUser, getUser, delUser, scrUser } from './api'
+import { newUser, getUser, delUser, scrUser } from './api';
+import data from 'data.js';
 
 export const newGame = () => {
     let name = prompt("What is your name?");
@@ -13,9 +14,10 @@ export const newGame = () => {
         } else { return 0; }
     }).then(result => {
         if (success) {
+            data.player_name = name;
             state.change(state.PLAY);
         } else {
-            alert("Name is taken");
+            alert(result['errm']);
         }
     });
 }
@@ -31,9 +33,10 @@ export const loadGame = () => {
         } else { return 0; }
     }).then(result => {
         if (success) {
+            data.player_name = name;
             state.change(state.PLAY);
         } else {
-            alert("Name is taken");
+            alert(result['errm']);
         }
     });
 }
