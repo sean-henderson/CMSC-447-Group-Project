@@ -9,7 +9,7 @@ There are a couple of things you have to do first before playing the game (which
 1. Install the latest version of python3 & pip3 here https://www.python.org/downloads/
 2. Install pyenv
 3. flask
-4. flask_cords
+4. flask_cors
 5. flask_sqlalchemy
 6. sqlalchemy
 
