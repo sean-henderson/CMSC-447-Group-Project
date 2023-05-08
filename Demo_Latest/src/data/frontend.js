@@ -31,12 +31,10 @@ export const loadGame = () => {
         } else { return 0; }
     }).then(result => {
         if (success) {
-            startGame(result['name']);
+            state.change(state.PLAY);
         } else {
             alert("Name is taken");
         }
-
-        //functionToReloadMainMenu();
     });
 }
 
