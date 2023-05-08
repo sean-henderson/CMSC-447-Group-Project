@@ -11,6 +11,7 @@ export const newGame = () => {
         if (!result['err']) {
             success = true;
         }
+        return result;
     }).then(result => {
         if (success) {
             data.player_name = name;
@@ -29,6 +30,7 @@ export const loadGame = () => {
         if (!result['err']) {
             success = true;
         }
+        return result;
     }).then(result => {
         if (success) {
             data.player_name = name;
