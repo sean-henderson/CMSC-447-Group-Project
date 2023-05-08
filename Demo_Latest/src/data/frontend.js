@@ -1,7 +1,7 @@
 // Import Front end APIs
 import { state } from 'melonjs';
 import { newUser, getUser, delUser, scrUser } from './api';
-import data from 'data.js';
+import data from './data.js';
 
 export const newGame = () => {
     let name = prompt("What is your name?");
