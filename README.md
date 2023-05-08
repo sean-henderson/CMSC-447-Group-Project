@@ -15,7 +15,7 @@ There are a couple of things you have to do first before playing the game (which
 
 Then, you have to run the following commands into the terminal
 
-7. ```pip3 install flask flask_cors flask-sqlalchemy sqlalchemy```
+7. ```pip3 install flask flask_cors flask_sqlalchemy sqlalchemy```
 
 8. ```cd backend/```
 
