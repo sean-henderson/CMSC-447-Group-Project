@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard</title>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Needed for fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia">
+</head>
+<body onload="displayLeaderboard()" style="background-color: #e7ba6a; font-family: 'Javanese';">
+    <!-- Start Here -->
+    <h1 class="w-50 p-3" style="color: black; font-size: 60px;">Leaderboard</h1>
+
+    <table class="table">
+        <thead class="thead-dark" style="background-color: #ef564e; font-size: 35px;">
+            <tr>
+                <th scope="col" style="background-color: #ad1810; color: #ffd700 ;">Rank</th>
+                <th scope="col" style="background-color: #ad1810; color: #ffd700 ;">Name</th>
+                <th scope="col" style="background-color: #ad1810; color: #ffd700 ;">Total Completion Time</th>
+            </tr>
+        </thead>
+        <tbody style="font-size: 30px;">
+            <tr id="first">
+                <td>1st</td>
+                <td id="first-name">Name 1</td>
+                <td id="first-total-time">Time 1</td>
+            </tr>
+
+            <tr id="second">
+                <td>2nd</td>
+                <td id="second-name">Name 2</td>
+                <td id="second-total-time">Time 2</td>
+            </tr>
+
+            <tr id="third">
+                <td>3rd</td>
+                <td id="third-name">Name 3</td>
+                <td id="third-total-time">Time 3</td>
+            </tr>
+
+            <tr id="fourth">
+                <td>4th</td>
+                <td id="fourth-name">Name 4</td>
+                <td id="fourth-total-time">Time 4</td>
+            </tr>
+
+            <tr id="fifth">
+                <td>5th</td>
+                <td id="fifth-name">Name 5</td>
+                <td id="fifth-total-time">Time 5</td>
+            </tr>
+        </tbody>
+    </table>
+    <h2 id="noData" class="p-3 error">No players have finished all levels</h2>
+    <style>
+        .table tbody tr:not(.live),
+        h2#noData:not(.live) {
+            display: none;
+        }
+
+        h2#noData {
+            font-style: italic;
+            color: red;
+            text-align: center;
+        }
+
+        .table #first  td:first-child,
+        .table #second td:first-child,
+        .table #third  td:first-child {
+            color:#B59410;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px #000000;
+        }
+
+        .table #second td:first-child {
+            color:#71706E;
+        }
+
+        .table #third td:first-child {
+            color:#804A00;
+        }
+    </style>
+    <script>
+        // Consts
+        const URL     = 'http://127.0.0.1:5000/';
+        const headers = {
+            'Content-Type': 'application/json'
+        };
+
+        // Function to interact with the API
+        const apiPost = async (route, fnc, name = '', score = 0, which = -1) => {
+            let success = false;
+            let iDelete = false;
+            let payload = {
+                'name': name
+            };
+
+            if (route === 'delete') {
+                iDelete = true;
+            }
+
+            if (route === 'score') {
+                payload.score = score;
+                payload.which = which;
+            }
+
+            return await fetch(URL + route, {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify(payload)
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log(fnc + '(): Success');
+                    success = true;
+
+                    if (iDelete) {
+                        return response.text();
+                    } else {
+                        return response.json();
+                    }
+                } else {
+                    console.log(fnc + '(): Failure');
+                    return response.text();
+                }
+            })
+            .then(response => {
+                if (success) {
+                    if (!iDelete) {
+                        response.err  = !success;
+                        response.errm = '';
+                        return response;
+                    } else {
+                        return {
+                            err:  !success,
+                            errm: response
+                        }
+                    }
+                } else {
+                    return {
+                        err:  !success,
+                        errm: response
+                    };
+                }
+            });
+        }
+
+        // API call to the /leaderboard route
+        const leaderB = async () => {
+            let route = 'leaderboard';
+            let fnc   = 'leaderB';
+            return apiPost(route, fnc);
+        }
+
+        // Called whenever the leaderboard is opened
+        // Simply displays the leaderboard as the name says
+        function displayLeaderboard() {
+            // Get leaderboard data Promise & resolve it
+            leaderB().then(result => {
+                let list = [];
+                
+                // Check that result was received without errors
+                if (result['err']) {
+                    console.log("API error, table not loaded.");
+                } else {
+                    // Extract leaderboard entries
+                    Object.entries(result['data'][0]).forEach(([key, value]) => {
+                        // Ignore Group & Title fields
+                        if (key !== 'Group' && key !== 'Title') {
+                            // swap in order to sort by completion-time
+                            list.push([value, key]);
+                        }
+                    });
+
+                    // Sort
+                    list.sort();
+
+                    // We officially update the leaderboard based on API data
+                    // Update 1st place
+                    if (list.length > 0) {
+                        document.getElementById("first").className="live";
+                        document.getElementById("first-name").innerHTML=list[0][1];
+                        document.getElementById("first-total-time").innerHTML=list[0][0];
+                    } else {
+                        // no data
+                        document.getElementById("noData").className="live";
+                    }
+
+                    // Update 2nd place
+                    if (list.length > 1) {
+                        document.getElementById("second").className="live";
+                        document.getElementById("second-name").innerHTML=list[1][1];
+                        document.getElementById("second-total-time").innerHTML=list[1][0];
+                    }
+
+                    // Update 3rd place
+                    if (list.length > 2) {
+                        document.getElementById("third").className="live";
+                        document.getElementById("third-name").innerHTML=list[2][1];
+                        document.getElementById("third-total-time").innerHTML=list[2][0];
+                    }
+
+                    // Update 4th place
+                    if (list.length > 3) {
+                        document.getElementById("fourth").className="live";
+                        document.getElementById("fourth-name").innerHTML=list[3][1];
+                        document.getElementById("fourth-total-time").innerHTML=list[3][0];
+                    }
+
+                    // Update 5th place
+                    if (list.length > 4) {
+                        document.getElementById("fifth").className="live";
+                        document.getElementById("fifth-name").innerHTML=list[4][1];
+                        document.getElementById("fifth-total-time").innerHTML=list[4][0];
+                    }
+                }
+            });
+        }
+    </script>
+    
+    
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

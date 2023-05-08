@@ -1,0 +1,8 @@
+We didn't want to start from scratch so one of us decided to just design the leaderboard html as a reskin of one of our HW2. We used Boostrap as the main framework for 
+styling our webpage. There really isn't much else to say for the html aspect since its very standard for every leaderboard to be formatted as a table. There are 3 
+columns: rank, name, and total completion time. Following it are 5 rows indicating the order of the leaderboard with 1st (lowest completion time) being at the top.
+
+As for the Javascript, the basic premise is that the main tag will have an onload property that calls a Javascript function named "displayLeaderbaord()" The function is 
+very self explanatory. It gets data from the data base and correctly places them in their proper html id tags. Each row in given an id that follows a basic naming scheme.
+For instance, the first row of the first column has the id "first", then "first-name", then "first-total-time". In summary, it just grabs data already in the database, 
+then feeds it to the proper html tag indicated by its id.
