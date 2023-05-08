@@ -36,7 +36,7 @@ def create():
         return 'Malformed request', 400
 
     # Validate username
-    if len(playerName) > pl:
+    if len(playerName) > pl or len(playerName) < 1:
         return 'Invalid player name length', 400
 
     # Attempt to add to database
@@ -74,7 +74,7 @@ def loaduser():
         return 'Malformed request', 400
 
     # Validate username
-    if len(playerName) > pl:
+    if len(playerName) > pl or len(playerName) < 1:
         return 'Invalid player name length', 400
 
     # Search database
@@ -108,7 +108,7 @@ def delete():
         return 'Malformed request', 400
 
     # Validate username
-    if len(playerName) > pl:
+    if len(playerName) > pl or len(playerName) < 1:
         return 'Invalid player name length', 400
 
     # Attempt to delete
@@ -151,7 +151,7 @@ def score():
         return 'Malformed request', 400
     
     # Validate everything
-    if len(playerName) > pl:
+    if len(playerName) > pl or len(playerName) < 1:
         return 'Invalid player name length', 400
     elif playerScore < 0:
         return 'Invalid score', 400
