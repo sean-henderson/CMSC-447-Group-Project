@@ -18,7 +18,6 @@ export const newGame = () => {
             alert("Name is taken");
         }
     });
-    state.change(state.PLAY);
 }
 
 export const loadGame = () => {
