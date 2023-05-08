@@ -161,7 +161,7 @@ class PlayerEntity extends Entity {
 
                 // Handles time for the level
                 data.lvl_1_time = this.timer;
-                scrUser("default", data.lvl_1_time, 1).then(response => {
+                scrUser(data.player_name, data.lvl_1_time, 1).then(response => {
                     console.log(response);
                 });
                 this.timer = 0;
@@ -180,7 +180,7 @@ class PlayerEntity extends Entity {
 
                 // Handles time for the level
                 data.lvl_2_time = this.timer;
-                scrUser("default", data.lvl_2_time, 2).then(response => {
+                scrUser(data.player_name, data.lvl_2_time, 2).then(response => {
                     console.log(response);
                 });
                 this.timer = 0;
@@ -198,7 +198,7 @@ class PlayerEntity extends Entity {
 
                 // Handles time for the level
                 data.lvl_3_time = this.timer;
-                scrUser("default", data.lvl_3_time, 3).then(response => {
+                scrUser(data.player_name, data.lvl_3_time, 3).then(response => {
                     console.log(response);
                 });
                 // Perform arithmetic for total completion time
