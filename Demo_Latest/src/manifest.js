@@ -30,7 +30,7 @@ const DataManifest = [
     { name: "PressStart2P",     type:"binary", src: "data/fnt/PressStart2P.fnt"},
     
     //Player Entity
-    {name: "Sprite_Full",       type: "image", src: "data/img/Sprite_Full.png"},
+    {name: "player_running",    type: "image", src: "data/img/Run-Sheet.png"},
     {name: "player_run01",      type: "image", src: "data/img/player_run01.png"},
 
     //Music
