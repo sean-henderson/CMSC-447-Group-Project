@@ -7,7 +7,7 @@ This is the repository for creating, as a group, a web-based game using the Melo
 There are a couple of things you have to do first before playing the game (which are mostly installations).
 
 1. Install the latest version of python3 & pip3 here https://www.python.org/downloads/
-2. Install pyenv
+2. Install pyenv (pyenv-win for Windows)
 3. Install Node.js here: https://nodejs.org/en/download
 4. flask
 5. flask_cors
