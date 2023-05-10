@@ -186,7 +186,9 @@
                     });
 
                     // Sort
-                    list.sort();
+                    list.sort(function(x, y) {
+                        return x[0] - y[0];
+                    });
 
                     // We officially update the leaderboard based on API data
                     // Update 1st place
