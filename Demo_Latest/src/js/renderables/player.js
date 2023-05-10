@@ -160,10 +160,13 @@ class PlayerEntity extends Entity {
                 audio.playTrack("level_two");
 
                 // Handles time for the level
-                data.lvl_1_time = this.timer;
-                scrUser(data.player_name, data.lvl_1_time, 1).then(response => {
-                    console.log(response);
-                });
+                if (this.timer > 10) {
+                    data.lvl_1_time = this.timer;
+                    scrUser(data.player_name, data.lvl_1_time, 1).then(response => {
+                        console.log(response);
+                    });
+                }
+                
                 this.timer = 0;
 
                 // Removes the trigger so that the audio
@@ -179,10 +182,13 @@ class PlayerEntity extends Entity {
                 audio.playTrack("level_three");
 
                 // Handles time for the level
-                data.lvl_2_time = this.timer;
-                scrUser(data.player_name, data.lvl_2_time, 2).then(response => {
-                    console.log(response);
-                });
+                if (this.timer > 10) {
+                    data.lvl_2_time = this.timer;
+                    scrUser(data.player_name, data.lvl_2_time, 2).then(response => {
+                        console.log(response);
+                    });
+                }
+                
                 this.timer = 0;
 
                 // Removes the trigger so that the audio
@@ -197,12 +203,15 @@ class PlayerEntity extends Entity {
                 audio.play("game_complete");
 
                 // Handles time for the level
-                data.lvl_3_time = this.timer;
-                scrUser(data.player_name, data.lvl_3_time, 3).then(response => {
-                    console.log(response);
-                });
-                // Perform arithmetic for total completion time
-                data.total_time = (data.lvl_1_time + data.lvl_2_time + data.lvl_3_time) - (data.coins * 50);
+                if (this.timer > 10) {
+                    data.lvl_3_time = this.timer;
+                    scrUser(data.player_name, data.lvl_3_time, 3).then(response => {
+                        console.log(response);
+                    });
+                    // Perform arithmetic for total completion time
+                    data.total_time = (data.lvl_1_time + data.lvl_2_time + data.lvl_3_time) - (data.coins * 50);
+                }
+
                 this.timer = 0;
 
                 // Removes the trigger so that the audio
