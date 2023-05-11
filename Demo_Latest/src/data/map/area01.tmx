@@ -996,7 +996,7 @@
  <objectgroup id="15" name="mainPlayer">
   <object id="128" name="mainPlayer" x="214.452" y="1184.64" width="32" height="49">
    <properties>
-    <property name="framewidth" value="49"/>
+    <property name="framewidth" value="34"/>
     <property name="image" value="player_running"/>
    </properties>
   </object>
