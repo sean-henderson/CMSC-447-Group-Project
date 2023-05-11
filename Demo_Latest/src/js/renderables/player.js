@@ -162,7 +162,7 @@ class PlayerEntity extends Entity {
                 // Handles time for the level
                 if (this.timer > 10) {
                     // Perform arithmetic for total completion time
-                    data.lvl_1_time = this.timer - (data.coins * 5);
+                    data.lvl_1_time = this.timer - data.coins;
                     data.coins_1 = data.coins;
                     data.coins = 0;
                     scrUser(data.player_name, data.lvl_1_time, 1).then(response => {
@@ -187,7 +187,7 @@ class PlayerEntity extends Entity {
                 // Handles time for the level
                 if (this.timer > 10) {
                     // Perform arithmetic for total completion time
-                    data.lvl_2_time = this.timer - (data.coins * 5);
+                    data.lvl_2_time = this.timer - data.coins;
                     data.coins_2 = data.coins;
                     data.coins = 0;
                     scrUser(data.player_name, data.lvl_2_time, 2).then(response => {
@@ -211,7 +211,7 @@ class PlayerEntity extends Entity {
                 // Handles time for the level
                 if (this.timer > 10) {
                     // Perform arithmetic for total completion time
-                    data.lvl_3_time = this.timer - (data.coins * 5);
+                    data.lvl_3_time = this.timer - data.coins;
                     data.coins_3 = data.coins;
                     data.coins = 0;
                     scrUser(data.player_name, data.lvl_3_time, 2).then(response => {
