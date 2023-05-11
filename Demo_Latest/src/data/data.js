@@ -3,6 +3,7 @@
 // and total time
 var data = {
     player_name : "default",
+    coins : 0,
     coins_1 : 0,
     coins_2 : 0,
     coins_3 : 0,
