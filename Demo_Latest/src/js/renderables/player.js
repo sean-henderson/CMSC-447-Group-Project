@@ -43,7 +43,7 @@ class PlayerEntity extends Entity {
         input.bindKey(input.KEY.S,      "down");
 
         // define a basic walking animation (using all frames)
-        this.renderable.addAnimation("walk",  [0]);
+        this.renderable.addAnimation("walk",  [0, 1, 2, 3, 4, 5, 6, 7]);
 
         // define a standing animation (using the first frame)
         this.renderable.addAnimation("stand",  [0]);
