@@ -209,7 +209,7 @@ class PlayerEntity extends Entity {
                         console.log(response);
                     });
                     // Perform arithmetic for total completion time
-                    data.total_time = (data.lvl_1_time + data.lvl_2_time + data.lvl_3_time) - (data.coins * 20);
+                    data.total_time = (data.lvl_1_time + data.lvl_2_time + data.lvl_3_time) - (data.coins * 5);
                 }
 
                 this.timer = 0;
