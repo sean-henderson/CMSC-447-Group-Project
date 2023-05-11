@@ -2413,7 +2413,7 @@
  <objectgroup id="15" name="mainPlayer">
   <object id="60" name="mainPlayer" x="45.5406" y="2773.99" width="32" height="49">
    <properties>
-    <property name="framewidth" value="49"/>
+    <property name="framewidth" value="34"/>
     <property name="image" value="player_running"/>
    </properties>
   </object>
