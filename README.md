@@ -72,6 +72,7 @@ Do you have what it takes to finish all 3 levels in as little time as possible?
 
 
 File Structure Diagram
+```
 .
 ├── Demo Latest/
 │   ├── .gitignore
@@ -168,3 +169,4 @@ File Structure Diagram
 ├── .gitignore
 ├── Admin Documentation.pdf
 └── README.md
+```
