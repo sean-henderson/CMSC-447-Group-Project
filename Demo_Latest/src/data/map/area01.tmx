@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="20" height="80" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#000000" nextlayerid="18" nextobjectid="198">
+<map version="1.10" tiledversion="1.10.0" orientation="orthogonal" renderorder="right-down" width="20" height="80" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#000000" nextlayerid="18" nextobjectid="198">
  <tileset firstgid="1" name="Sky" tilewidth="16" tileheight="16" tilecount="510" columns="30">
   <image source="../img/Background.png" width="480" height="272"/>
  </tileset>
@@ -996,6 +996,7 @@
  <objectgroup id="15" name="mainPlayer">
   <object id="128" name="mainPlayer" x="214.452" y="1184.64" width="32" height="49">
    <properties>
+    <property name="framewidth" value="49"/>
     <property name="image" value="player_running"/>
    </properties>
   </object>
