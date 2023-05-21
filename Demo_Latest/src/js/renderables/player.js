@@ -214,7 +214,7 @@ class PlayerEntity extends Entity {
                     data.lvl_3_time = this.timer - data.coins;
                     data.coins_3 = data.coins;
                     data.coins = 0;
-                    scrUser(data.player_name, data.lvl_3_time, 2).then(response => {
+                    scrUser(data.player_name, data.lvl_3_time, 3).then(response => {
                         console.log(response);
                     });
                 }
