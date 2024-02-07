@@ -57,7 +57,7 @@ This should officially run the game. Just make sure that the backend is also run
 
 
 # How to Actually Play the Game
-The Jump Lite is your standard platformer game where you start from one side of the map and get to the right spot. Your basic controls are jumping and moving/walking. You can move by using the arrow keys and jump by using the space bar.
+Jump Lite is your standard platformer game where you start from one side of the map and get to the right spot. Your basic controls are jumping and moving/walking. You can move by using the arrow keys and jump by using the space bar.
 
 There are platforms that you can walk and jump on. Your goal is to get to the destination of each level and do that for all 3 levels. In order to win and show up on the leaderboard, you'd have to beat all 3 levels.
 
